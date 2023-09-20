@@ -7,22 +7,43 @@ const ListSpecies = () => {
 
     // this is my original state with an array of students 
     const [species, setSpecies] = useState([]);
+    const [individualsForEach, setIndividualsForEach] = useState([]);
 
     //this is the state needed for the UpdateRequest
     //const [editingStudent, setEditingStudent] = useState(null)
 
     const loadSpecies = () => {
-        // A function to fetch the list of students that will be load anytime that list change
+        // A function to fetch the list of species that will be load anytime that list change
         fetch("http://localhost:8000/api/species")
             .then((response) => response.json())
             .then((result) => {
                 setSpecies(result);
-                console.log("fetching", result);//
+                //
             });
     }
 
     useEffect(() => {
         loadSpecies();
+        console.log("fetching", species);
+    }, []);
+
+
+    const IndividualsForEachSpecies = (speciesId) =>{
+        if (speciesId) {
+            // A function to fetch the list of individuals for each species that will be load anytime that list changes
+            fetch(`http://localhost:8000/api/species/${speciesId}`)
+              .then((response) => response.json())
+              .then((result) => {
+                setIndividualsForEach(result);
+                //console.log("fetching individuals For Each species", individualsForEach);
+              });
+          } else {
+            console.error("Invalid speciesId:", speciesId);
+          }
+    }
+    useEffect(() => {
+            IndividualsForEachSpecies();
+            console.log("fetching individuals For Each species", individualsForEach);
     }, []);
 
    // const onSaveStudent = (newStudent) => {
@@ -66,7 +87,7 @@ const ListSpecies = () => {
             <h2>Animal Tracker </h2>
             <ul>
                 {species.map((species) => {
-                    return <li key={species.id}> <Species species={species} /></li>
+                    return <li key={species.id}> <Species species={species} onFetch={IndividualsForEachSpecies} /></li>
                 })}
             </ul>
         </div>
