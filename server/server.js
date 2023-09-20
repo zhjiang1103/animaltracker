@@ -41,6 +41,18 @@ app.get('/api/species/:speciesId', async (req, res) => {
     }
 });
 
+// create the get request for all sightings, including the nickname of the individual sighted at each one (using a JOIN query) in the endpoint '/api/sightings'
+app.get('/api/sightings', async (req, res) => {
+    try {
+        const { rows: sightings } = await db.query('SELECT sightings.*, individuals.nickName AS individualNickname FROM sightings INNER JOIN individuals ON sightings.sight_id = individuals.individual_id');
+        console.log("In the server fetch sightings",sightings)
+        res.send(sightings);
+    } catch (e) {
+        console.log(e);
+        return res.status(400).json({ e });
+    }
+});
+
 
 // // create the POST request
 // app.post('/api/students', async (req, res) => {
