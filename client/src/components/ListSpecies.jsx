@@ -137,12 +137,14 @@ const ListSpecies = () => {
             <h2>All Sightings</h2>
             <ul>
             {sightings.map((sighting) => {
-                    return <li key={sighting.id}> <Sightings sightings={sightings} /></li>
+                    return <li key={sighting.id}> <Sightings sightings={sighting} /></li>
                 })}
             </ul>
-            <div>
-                {individualsForEach.length === 0  ? null : <Individuals individuals={individualsForEach} reset={resetIndividuals}/>}
-            </div>
+            <ul>
+                {individualsForEach.length === 0  ? null : individualsForEach.map((individual) => {
+                    return <li key={individual.id}> <Individuals individual={individual} reset={resetIndividuals}/></li>
+                })}
+            </ul>
         </div>
         <MyForm submit={onSaveSighting} />
         </div>

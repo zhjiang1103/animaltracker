@@ -9,17 +9,17 @@ const Sightings = (props) => {
 //console.log(props);
     return (
         <Card>
-            {props.sightings.map((sighting)=>(
+            
                 <Card.Body>
-                <Card.Title>Sighting: {sighting.sight_id} </Card.Title>
-                <Card.Subtitle>Individual Nickname: {sighting.individualnickname}</Card.Subtitle>
+                <Card.Title>Sighting: {props.sightings.sight_id} </Card.Title>
+                <Card.Subtitle>Individual Nickname: {props.sightings.individualnickname}</Card.Subtitle>
                 <Card.Text>
-                    <div>Date & Time: {sighting.date_time}</div>
-                    {/* <div>Is it healthy?: {sighting.healthy.toString()}</div> */}
-                    <div>Sighting Location: {sighting.sightlocation}</div>
+                    <div>Date & Time: {props.sightings.date_time}</div>
+                    <div>Is it healthy?: {props.sightings.healthy.toString()}</div>
+                    <div>Sighting Location: {props.sightings.sightlocation}</div>
                </Card.Text>
                 </Card.Body>
-            ))}
+            
             
         </Card>
     )

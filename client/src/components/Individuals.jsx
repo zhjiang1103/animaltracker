@@ -4,18 +4,19 @@ import Card from 'react-bootstrap/Card';
 
 const Individuals = (props) => {
 
-console.log(props);
+console.log("props", props);
 
     return (
         <Card>
+       
             <Card.Body>
-            <Card.Title>{props.individuals.nickname}</Card.Title>
-            <Card.Subtitle>Scientist Name: {props.individuals.scientistname}</Card.Subtitle>
+            <Card.Title>{`Individuals for species ${props.individual.commonname}`}</Card.Title>
             <Card.Text>
-                <div>Species common name: {props.individuals.commonname}</div>
-                <div>Species scientific name: {props.individuals.scientificname}</div>
+                <div>Individual nickname: {props.individual.nickname}</div>
+                <div>Scientist Name: {props.individual.scientistname}</div>
            </Card.Text>
             </Card.Body>
+       
         </Card>
     )
 

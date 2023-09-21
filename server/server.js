@@ -42,9 +42,9 @@ app.get('/api/sightings', async (req, res) => {
 app.get('/api/species/:speciesId', async (req, res) => {
     try {
         const speciesId = req.params.speciesId;
-        const result=await db.query('SELECT individuals.nickName,individuals.ScientistName, species.commonName, species.ScientificName FROM individuals INNER JOIN species ON individuals.species_id = species.species_id WHERE individuals.species_id = $1', [speciesId]);
+        const result=await db.query('SELECT individuals.nickName,individuals.ScientistName,individuals.species_id, species.commonName, species.ScientificName FROM individuals INNER JOIN species ON individuals.species_id = species.species_id WHERE individuals.species_id = $1', [speciesId]);
         console.log("From the speciesID", speciesId);
-        res.json(result.rows[0]);
+        res.json(result.rows);
     } catch (e) {
         console.log(e);
         return res.status(400).json({ e });
