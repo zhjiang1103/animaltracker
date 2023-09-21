@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react'
 //import * as ioicons from 'react-icons/io5'
 //import MyForm from './Form';
 import Species from './Species';
+import Sightings from './Sightings';
+import Individuals from './Individuals';
 
 const ListSpecies = () => {
 
     // this is my original state with an array of students 
     const [species, setSpecies] = useState([]);
     const [individualsForEach, setIndividualsForEach] = useState([]);
+    const [sightings, setSightings] = useState([]);
 
     //this is the state needed for the UpdateRequest
     //const [editingStudent, setEditingStudent] = useState(null)
@@ -22,10 +25,10 @@ const ListSpecies = () => {
             });
     }
 
-    useEffect(() => {
-        loadSpecies();
-        console.log("fetching", species);
-    }, []);
+    // useEffect(() => {
+    //     loadSpecies();
+    //     console.log("fetching species", species);
+    // }, []);
 
 
     const IndividualsForEachSpecies = (speciesId) =>{
@@ -35,15 +38,41 @@ const ListSpecies = () => {
               .then((response) => response.json())
               .then((result) => {
                 setIndividualsForEach(result);
-                //console.log("fetching individuals For Each species", individualsForEach);
+                console.log("fetching individuals For Each species", individualsForEach);
               });
           } else {
             console.error("Invalid speciesId:", speciesId);
           }
     }
+
+    const resetIndividuals = () =>{
+        setIndividualsForEach([]);
+    }
     useEffect(() => {
             IndividualsForEachSpecies();
             console.log("fetching individuals For Each species", individualsForEach);
+    }, [individualsForEach]);
+
+
+    const loadSightings = () => {
+        fetch("http://localhost:8000/api/sightings")
+          .then((response) => {
+            return response.json();
+          })
+          .then((result) => {
+            setSightings(result);
+            console.log("fetching sightings", result);
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+          });
+      };
+      
+    useEffect(() => {
+        loadSpecies();
+        loadSightings();
+        console.log("fetching species", species);
+        console.log("fetching sightings", sightings);
     }, []);
 
    // const onSaveStudent = (newStudent) => {
@@ -90,6 +119,14 @@ const ListSpecies = () => {
                     return <li key={species.id}> <Species species={species} onFetch={IndividualsForEachSpecies} /></li>
                 })}
             </ul>
+            <ul>
+            {sightings.map((sighting) => {
+                    return <li key={sighting.id}> <Sightings sightings={sightings} /></li>
+                })}
+            </ul>
+            <div>
+                {individualsForEach.length === 0  ? null : <Individuals individuals={individualsForEach} reset={resetIndividuals}/>}
+            </div>
         </div>
         {/* <MyForm key={editingStudent ? editingStudent.id : null} onSaveStudent={onSaveStudent} editingStudent={editingStudent} onUpdateStudent={updateStudent} /> */}
         </div>
