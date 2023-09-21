@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 //import * as ioicons from 'react-icons/io5'
-//import MyForm from './Form';
+import MyForm from './Form';
 import Species from './Species';
 import Sightings from './Sightings';
 import Individuals from './Individuals';
@@ -48,6 +48,7 @@ const ListSpecies = () => {
     const resetIndividuals = () =>{
         setIndividualsForEach([]);
     }
+    
     useEffect(() => {
             IndividualsForEachSpecies();
             console.log("fetching individuals For Each species", individualsForEach);
@@ -75,10 +76,10 @@ const ListSpecies = () => {
         console.log("fetching sightings", sightings);
     }, []);
 
-   // const onSaveStudent = (newStudent) => {
-        //console.log(newStudent, "From the parent - List of Students");
-       // setStudents((students) => [...students, newStudent]);
-    //}
+   const onSaveSighting = (newSighting) => {
+        console.log(newSighting, "From the parent - Sightings");
+       setSightings((sightings) => [...sightings, newSighting]);
+    }
 
 
     //A function to control the update in the parent (student component)
@@ -128,7 +129,7 @@ const ListSpecies = () => {
                 {individualsForEach.length === 0  ? null : <Individuals individuals={individualsForEach} reset={resetIndividuals}/>}
             </div>
         </div>
-        {/* <MyForm key={editingStudent ? editingStudent.id : null} onSaveStudent={onSaveStudent} editingStudent={editingStudent} onUpdateStudent={updateStudent} /> */}
+        <MyForm submit={onSaveSighting} />
         </div>
     );
 }

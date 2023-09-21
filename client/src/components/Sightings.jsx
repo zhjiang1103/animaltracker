@@ -15,7 +15,7 @@ const Sightings = (props) => {
                 <Card.Subtitle>Individual Nickname: {sighting.individualnickname}</Card.Subtitle>
                 <Card.Text>
                     <div>Date & Time: {sighting.date_time}</div>
-                    <div>Is it healthy?: {sighting.healthy.toString()}</div>
+                    {/* <div>Is it healthy?: {sighting.healthy.toString()}</div> */}
                     <div>Sighting Location: {sighting.sightlocation}</div>
                </Card.Text>
                 </Card.Body>
