@@ -2,12 +2,13 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Button, Form } from "react-bootstrap"
 
 const MyForm = (props) => {
+   const [isHealthy, setIsHealthy] = useState(false);
    
 
     const userIndividualID = useRef();
     const userDateTime = useRef();
     const userSightingLocation = useRef();
-    //const userHealthy = useRef();
+    const userHealthy = useRef(null);
     const userScientistEmail = useRef();
     const userCreateTime = useRef();
 
@@ -23,11 +24,11 @@ const MyForm = (props) => {
     //     setStudent((student) => ({ ...student, lastname }));
     // };
 
-    // const handleCheckChange = (event) => {
-    //     const is_healthy = event.target.checked;
-    //     //console.log(iscurrent);
-    //     setHealthy(true);
-    // };
+    const handleCheckChange = (event) => {
+        const isHealthy = event.target.checked;
+        console.log(isHealthy);
+        setIsHealthy(isHealthy);
+    };
 
     // const clearForm = () => {
     //     setStudent({ firstname: "", lastname: "", is_current: false })
@@ -73,7 +74,7 @@ const MyForm = (props) => {
     //A function to handle the submit in both cases - Post and Put request!
     const handleSubmit = (e) => {
         e.preventDefault();
-        const userSighting = {date_time: userDateTime.current?.value, sightLocation: userSightingLocation.current?.value,  ScientistEmail: userScientistEmail.current?.value, createAt: userCreateTime.current?.value, individual_id:userIndividualID.current?.value }
+        const userSighting = {date_time: userDateTime.current?.value, sightLocation: userSightingLocation.current?.value, healthy: isHealthy, ScientistEmail: userScientistEmail.current?.value, createAt: userCreateTime.current?.value, individual_id:userIndividualID.current?.value }
         console.log("Inside the component", userSighting);
         props.submit(userSighting);
        
@@ -130,13 +131,13 @@ const MyForm = (props) => {
                     
                 />
             </Form.Group>
-            {/* <Form.Check
+            <Form.Check
                 type={'checkbox'}
                 id={`isCurrent`}
-                checked={student.is_current}
+                checked={isHealthy}
                 onChange={handleCheckChange}
                 label={`Is the animal healthy?`}
-            /> */}
+            />
             <Form.Group>
             <button type="submit">Submit</button>
             </Form.Group>

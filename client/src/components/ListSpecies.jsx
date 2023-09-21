@@ -77,9 +77,23 @@ const ListSpecies = () => {
     }, []);
 
    const onSaveSighting = (newSighting) => {
-        console.log(newSighting, "From the parent - Sightings");
-       setSightings((sightings) => [...sightings, newSighting]);
-    }
+        //console.log("Inside the App", data);
+      fetch("http://localhost:8000/api/sightings", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newSighting)
+      })
+      .then((reponse) => reponse.json())
+      .then(() => {
+        console.log("Inside the post line 88", newSighting)
+        setSightings([...sightings, newSighting])
+        console.log("newSightings", sightings);
+      })
+      .catch((error) => {
+        console.error("Error while saving the sighting:", error);
+      });
+  }
+
 
 
     //A function to control the update in the parent (student component)
@@ -120,6 +134,7 @@ const ListSpecies = () => {
                     return <li key={species.id}> <Species species={species} onFetch={IndividualsForEachSpecies} /></li>
                 })}
             </ul>
+            <h2>All Sightings</h2>
             <ul>
             {sightings.map((sighting) => {
                     return <li key={sighting.id}> <Sightings sightings={sightings} /></li>

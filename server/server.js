@@ -27,6 +27,17 @@ app.get('/api/species', async (req, res) => {
     }
 });
 
+app.get('/api/sightings', async (req, res) => {
+    try {
+        const { rows: sightings } = await db.query('SELECT * FROM sightings');
+        console.log("Sightings In the server", sightings)
+        res.send(sightings);
+    } catch (e) {
+        console.log(e);
+        return res.status(400).json({ e });
+    }
+});
+
 // create the get request for all individuals of species_id = $1 in the endpoint '/api/species/:speciesId'
 app.get('/api/species/:speciesId', async (req, res) => {
     try {
@@ -42,7 +53,7 @@ app.get('/api/species/:speciesId', async (req, res) => {
 });
 
 // create the get request for all sightings, including the nickname of the individual sighted at each one (using a JOIN query) in the endpoint '/api/sightings'
-app.get('/api/sightings', async (req, res) => {
+app.get('/api/sightingsjoinnickname', async (req, res) => {
     try {
         const { rows: sightings } = await db.query('SELECT sightings.*, individuals.nickName AS individualNickname FROM sightings INNER JOIN individuals ON sightings.sight_id = individuals.individual_id');
         console.log("In the server fetch sightings",sightings)
@@ -52,6 +63,29 @@ app.get('/api/sightings', async (req, res) => {
         return res.status(400).json({ e });
     }
 });
+
+app.post('/api/sightings', async (req, res) =>{
+    /*
+    INSERT INTO sightings (date_time, sightLocation, healthy, scientistEmail, createAt, individual_id) VALUES ('2019-9-10 23:00:24', 'California', true, 'abc@gmail.com', current_timestamp, 1);
+    */
+
+    try {
+        // const userData = req.body;
+        // console.log("In the server", userData);
+        const { date_time, sightLocation, healthy, scientistemail, createAt, individual_id } = req.body;
+        // syntax = await db.query("", [])
+        const result = await db.query(
+        "INSERT INTO sightings (date_time, sightLocation, healthy, scientistEmail, createAt, individual_id) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *",
+            [date_time, sightLocation, healthy, scientistemail, createAt, individual_id]
+        );
+        let dbResponse = result.rows[0];
+        console.log("db", dbResponse)
+        res.json(dbResponse);
+    } catch(error){
+        console.log(error);
+        res.status(400).json({error});
+    }
+})
 
 
 // // create the POST request
