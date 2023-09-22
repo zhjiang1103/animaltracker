@@ -11,8 +11,7 @@ const Sightings = (props) => {
         <Card>
             
                 <Card.Body>
-                <Card.Title>Sighting: {props.sightings.sight_id} </Card.Title>
-                <Card.Subtitle>Individual Nickname: {props.sightings.individualnickname}</Card.Subtitle>
+                <Card.Title>Individual Nickname: {props.sightings.individualnickname}</Card.Title>
                 <Card.Text>
                     <div>Date & Time: {props.sightings.date_time}</div>
                     <div>Is it healthy?: {props.sightings.healthy.toString()}</div>
