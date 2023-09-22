@@ -55,7 +55,7 @@ app.get('/api/species/:speciesId', async (req, res) => {
 // create the get request for all sightings, including the nickname of the individual sighted at each one (using a JOIN query) in the endpoint '/api/sightings'
 app.get('/api/sightingsjoinnickname', async (req, res) => {
     try {
-        const { rows: sightings } = await db.query('SELECT sightings.*, individuals.nickName AS individualNickname FROM sightings INNER JOIN individuals ON sightings.sight_id = individuals.individual_id');
+        const { rows: sightings } = await db.query('SELECT sightings.*, individuals.nickName AS individualNickname FROM sightings INNER JOIN individuals ON sightings.individual_id = individuals.individual_id');
         console.log("In the server fetch sightings",sightings)
         res.send(sightings);
     } catch (e) {
@@ -72,11 +72,12 @@ app.post('/api/sightings', async (req, res) =>{
     try {
         // const userData = req.body;
         // console.log("In the server", userData);
-        const { date_time, sightLocation, healthy, scientistemail, createAt, individual_id } = req.body;
+        console.log(req.body);
+        const { date_time, sightLocation, healthy, ScientistEmail, createAt, individual_id } = req.body;
         // syntax = await db.query("", [])
         const result = await db.query(
-        "INSERT INTO sightings (date_time, sightLocation, healthy, scientistEmail, createAt, individual_id) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *",
-            [date_time, sightLocation, healthy, scientistemail, createAt, individual_id]
+        "INSERT INTO sightings (date_time, sightLocation, healthy, scientistEmail, createAt, individual_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+            [date_time, sightLocation, healthy, ScientistEmail, createAt, individual_id]
         );
         let dbResponse = result.rows[0];
         console.log("db", dbResponse)

@@ -56,7 +56,7 @@ const ListSpecies = () => {
 
 
     const loadSightings = () => {
-        fetch("http://localhost:8000/api/sightings")
+        fetch("http://localhost:8000/api/sightingsjoinnickname")
           .then((response) => {
             return response.json();
           })
@@ -83,10 +83,14 @@ const ListSpecies = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newSighting)
       })
-      .then((reponse) => reponse.json())
-      .then(() => {
-        console.log("Inside the post line 88", newSighting)
-        setSightings([...sightings, newSighting])
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        let createSighting = result;
+        console.log("Inside the post line 88", createSighting)
+        //setSightings([...sightings, createSighting])
+        loadSightings();
         console.log("newSightings", sightings);
       })
       .catch((error) => {
