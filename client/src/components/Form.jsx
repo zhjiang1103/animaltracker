@@ -81,7 +81,7 @@ const MyForm = (props) => {
     }
 
     return (
-        <Form className='form-students' onSubmit={handleSubmit}>
+        <Form className='form-class' onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Label>Sighting info for individual ID: </Form.Label>
                 <input

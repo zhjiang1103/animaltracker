@@ -40,7 +40,7 @@ body {
     padding-bottom: 4rem;
   }
   
-  .formRow {
+  .form {
     display: flex;
     flex-direction: column;
     gap: 10px;

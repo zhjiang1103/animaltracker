@@ -20,7 +20,7 @@ const handleReset = () =>{
 }
    
 return (
-        <Card>
+        <Card classname="container">
             <Card.Body>
             <Card.Title>{props.species.commonname} </Card.Title>
             <Card.Subtitle>Scientific Name: {props.species.scientificname}</Card.Subtitle>

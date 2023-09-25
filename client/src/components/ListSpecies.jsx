@@ -130,7 +130,7 @@ const ListSpecies = () => {
 
 
     return (
-        <div className="mybody">
+        <div className="container">
         <div className="list-students">
             <h2>Animal Tracker </h2>
             <ul>
