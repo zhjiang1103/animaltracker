@@ -2,13 +2,13 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import moment from 'moment';
 import Button from 'react-bootstrap/Button';
-//import * as ioicons from 'react-icons/io5'
+
 
 const Species = (props) => {
   
 
 const fetchIndividuals = () =>{
-    //localhost:8000/api/species/1
+  
     const idToFetch = props.species.species_id;
     console.log("idtoFetch", idToFetch);
     props.onFetch(idToFetch);

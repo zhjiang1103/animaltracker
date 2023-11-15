@@ -2,11 +2,11 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import moment from 'moment';
 import Button from 'react-bootstrap/Button';
-//import * as ioicons from 'react-icons/io5'
+
 
 const Sightings = (props) => {
 
-//console.log(props);
+
     return (
         <Card>
             
