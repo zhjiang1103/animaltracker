@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap"
 
 const MyForm = (props) => {
    const [isHealthy, setIsHealthy] = useState(false);
+   const [errorMessage, setErrorMessage] = useState('');
    
 
     const userIndividualID = useRef();
@@ -26,10 +27,22 @@ const MyForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const userSighting = {date_time: userDateTime.current?.value, sightLocation: userSightingLocation.current?.value, healthy: isHealthy, ScientistEmail: userScientistEmail.current?.value, createAt: userCreateTime.current?.value, individual_id:userIndividualID.current?.value }
+        if (!isValidEmail(userScientistEmail.current.value)){
+            setErrorMessage('Invalid email address! Please enter a valid email.');
+        } else {
+          setErrorMessage(''); // Clear the error message if the email is valid
+        }
+        
         console.log("Inside the component", userSighting);
         props.submit(userSighting);
-       
     }
+    
+
+    //Form Validation 
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      };
 
     return (
         <Form className='form-class' onSubmit={handleSubmit}>
