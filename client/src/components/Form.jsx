@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap"
 
 const MyForm = (props) => {
    const [isHealthy, setIsHealthy] = useState(false);
+   const [errorMessage, setErrorMessage] = useState('');
    
 
     const userIndividualID = useRef();
@@ -12,73 +13,36 @@ const MyForm = (props) => {
     const userScientistEmail = useRef();
     const userCreateTime = useRef();
 
-    // //create functions that handle the event of the user typing into the form
-    // const handleNameChange = (event) => {
-    //     const firstname = event.target.value;
-    //     setStudent((student) => ({ ...student, firstname }));
-
-    // };
-
-    // const handleLastnameChange = (event) => {
-    //     const lastname = event.target.value;
-    //     setStudent((student) => ({ ...student, lastname }));
-    // };
-
+    
     const handleCheckChange = (event) => {
         const isHealthy = event.target.checked;
         console.log(isHealthy);
         setIsHealthy(isHealthy);
     };
 
-    // const clearForm = () => {
-    //     setStudent({ firstname: "", lastname: "", is_current: false })
-    // }
-
-    // //A function to handle the post request
-    // const postStudent = (newStudent) => {
-    //     return fetch("http://localhost:8080/api/students", {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify(newStudent),
-    //     })
-    //         .then((response) => {
-    //             return response.json();
-    //         })
-    //         .then((data) => {
-    //             //console.log("From the post ", data);
-    //             //I'm sending data to the List of Students (the parent) for updating the list
-    //             onSaveStudent(data);
-    //             //this line just for cleaning the form
-    //             clearForm();
-    //         });
-    // };
-
-    // //A function to handle the post request
-    // const putStudent = (toEditStudent) => {
-    //     return fetch(`http://localhost:8080/api/students/${toEditStudent.id}`, {
-    //         method: "PUT",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify(toEditStudent),
-    //     })
-    //         .then((response) => {
-    //             return response.json();
-    //         })
-    //         .then((data) => {
-    //             onUpdateStudent(data);
-    //             //this line just for cleaning the form
-    //             clearForm();
-    //         });
-    // };
+    
 
 
     //A function to handle the submit in both cases - Post and Put request!
     const handleSubmit = (e) => {
         e.preventDefault();
         const userSighting = {date_time: userDateTime.current?.value, sightLocation: userSightingLocation.current?.value, healthy: isHealthy, ScientistEmail: userScientistEmail.current?.value, createAt: userCreateTime.current?.value, individual_id:userIndividualID.current?.value }
+        if (!isValidEmail(userScientistEmail.current.value)){
+            setErrorMessage('Invalid email address! Please enter a valid email.');
+        } else {
+          setErrorMessage(''); // Clear the error message if the email is valid
+        }
+        
         console.log("Inside the component", userSighting);
         props.submit(userSighting);
-       
     }
+    
+
+    //Form Validation 
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      };
 
     return (
         <Form className='form-class' onSubmit={handleSubmit}>
